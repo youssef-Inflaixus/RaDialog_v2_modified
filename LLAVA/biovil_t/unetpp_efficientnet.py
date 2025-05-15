@@ -58,13 +58,38 @@ class UNETPPEfficientNet(nn.Module):
         print(f"Loaded checkpoint from {checkpoint_path}")
 
 
-def unetpp_efficientnet(pretrained: bool = True, checkpoint_path: str = "/home/youssef/bone_fracture_detection/experiments/RaDialog_v2/LLAVA/biovil_t/best_checkpoint.pth", progress: bool = True, **kwargs: Any) -> UNETPPEfficientNet:
-    """UNet++ with EfficientNet-4 as backbone with optional checkpoint loading."""
+# def unetpp_efficientnet(pretrained: bool = True, checkpoint_path: str = "/home/youssef/bone_fracture_detection/experiments/RaDialog_v2/LLAVA/biovil_t/best_checkpoint.pth", progress: bool = True, **kwargs: Any) -> UNETPPEfficientNet:
+#     """UNet++ with EfficientNet-4 as backbone with optional checkpoint loading."""
+#     encoder_weights = 'imagenet' if pretrained else None
+#     model = UNETPPEfficientNet(encoder_name='efficientnet-b4', encoder_weights=encoder_weights, **kwargs)
+
+#     # If a checkpoint is provided, load the custom checkpoint
+#     if checkpoint_path:
+#         model.load_checkpoint(checkpoint_path)  # Load the checkpoint
+
+#     return model
+
+
+def unetpp_efficientnet(
+    pretrained: bool = True,
+    checkpoint_path: str = None,
+    progress: bool = True,
+    **kwargs
+) -> UNETPPEfficientNet:
+    """UNet++ with EfficientNet-B4 as backbone with optional checkpoint loading."""
     encoder_weights = 'imagenet' if pretrained else None
     model = UNETPPEfficientNet(encoder_name='efficientnet-b4', encoder_weights=encoder_weights, **kwargs)
 
-    # If a checkpoint is provided, load the custom checkpoint
-    if checkpoint_path:
-        model.load_checkpoint(checkpoint_path)  # Load the checkpoint
+    # Default path relative to this script file
+    if checkpoint_path is None:
+        checkpoint_path = os.environ.get(
+            "UNETPP_EFFNET_CKPT",
+            os.path.join(os.path.dirname(__file__), "best_checkpoint.pth")  # absolute path
+        )
+
+    if checkpoint_path and os.path.exists(checkpoint_path):
+        model.load_checkpoint(checkpoint_path)
+    else:
+        print(f"[INFO] Checkpoint path not found or not provided: {checkpoint_path}")
 
     return model
