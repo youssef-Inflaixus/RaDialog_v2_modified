@@ -5,7 +5,7 @@ python3 -m llava.model.make_delta --base ~/model_weights/llama-7b --target ~/mod
 import argparse
 
 import torch
-from LLAV.llava.model.utils import auto_upgrade
+from LLAVA.llava.model.utils import auto_upgrade
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModelForCausalLM
 

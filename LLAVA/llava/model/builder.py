@@ -20,17 +20,17 @@ import shutil
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, BitsAndBytesConfig
 import torch
 
-from LLAVA_Biovil.biovil_t.model import ImageModel
-from LLAVA_Biovil.biovil_t.pretrained import _download_biovil_t_image_model_weights
-from LLAVA_Biovil.biovil_t.types import ImageEncoderType
-from LLAVA_Biovil.llava.model.multimodal_projector.builder import build_vision_projector
+from LLAVA.biovil_t.model import ImageModel
+from LLAVA.biovil_t.pretrained import _download_biovil_t_image_model_weights
+from LLAVA.biovil_t.types import ImageEncoderType
+from LLAVA.llava.model.multimodal_projector.builder import build_vision_projector
 
 try:
-    from LLAVA_Biovil.llava.model import *
-    from LLAVA_Biovil.llava.constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
+    from LLAVA.llava.model import *
+    from LLAVA.llava.constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 except:
-    from LLAVA_Biovil.llava.model import *
-    from LLAVA_Biovil.llava.constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
+    from llava.model import *
+    from llava.constants import DEFAULT_IMAGE_PATCH_TOKEN, DEFAULT_IM_START_TOKEN, DEFAULT_IM_END_TOKEN
 
 
 def load_pretrained_model(model_path, model_base, model_name, load_8bit=False, load_4bit=False, device_map="auto", device="cuda", **kwargs):
